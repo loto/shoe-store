@@ -3,8 +3,10 @@ import { reactive } from 'vue'
 export const datasource = reactive({
     modelInventoryRecords: [],
     storeInventoryRecords : [],
+    modelSalesRecords: [],
 
     update(state) {
+        this.updateModelSalesRecords(state)
         this.updateModelInventoryRecords(state)
         this.updateStoreInventoryRecords(state)
     },
@@ -77,5 +79,48 @@ export const datasource = reactive({
             }
             return 0
         })
+    },
+
+    updateModelSalesRecords(state) {
+        this.modelSalesRecords.forEach(el => {
+            if (el.updated > 0) {
+                el.updated--
+            }
+        });
+        
+        var modelRecord = this.modelSalesRecords.find(el => el.model == state.model)
+        if (modelRecord == undefined) {
+            modelRecord = { model: state.model, sales: [], updated: 0 }
+            this.modelSalesRecords.push(modelRecord)
+        }
+        
+        var storeRecord = modelRecord.sales.find(el => el.store == state.store)
+        if (storeRecord == undefined) {
+            storeRecord = { store: state.store, value: 0 }
+            modelRecord.sales.push(storeRecord)
+        }
+        
+        this.modelSalesRecords.sort((a, b) => {
+            const nameA = a.model
+            const nameB = b.model
+            if (nameA < nameB) {
+                return -1
+            }
+            if (nameA > nameB) {
+                return 1
+            }
+            return 0
+        })
+
+        let modelInventoryRecord = this.findOrCreateModelInventoryRecord(state.model)
+        let storeInventoryRecord = modelInventoryRecord.findOrCreateStore(state.store)
+        let sales = storeInventoryRecord.count - state.inventory
+        
+        if (sales <= 0) {
+            return
+        }
+
+        modelRecord.updated += 5;
+        storeRecord.value += sales
     },
 })

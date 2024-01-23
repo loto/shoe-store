@@ -1,2 +1,3 @@
-export const SHOE_REPORT = 'shoeReport'
-export const STORE_REPORT = 'storeReport'
+export const SHOE_INVENTORY_REPORT = 'SHOE_INVENTORY_REPORT'
+export const SHOE_SALES_REPORT = 'SHOE_SALES_REPORT'
+export const STORE_INVENTORY_REPORT = 'STORE_INVENTORY_REPORT'

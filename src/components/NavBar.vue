@@ -1,6 +1,6 @@
 <script setup>
 import WebsocketButton from './WebsocketButton.vue'
-import { SHOE_REPORT, STORE_REPORT } from "../constants"
+import { SHOE_INVENTORY_REPORT, SHOE_SALES_REPORT, STORE_INVENTORY_REPORT } from "../constants"
 
 const emit = defineEmits(['message-received', 'report-selected'])
 
@@ -32,8 +32,9 @@ function onMessageReceived(message)
               <a class="navbar-link">Select Aggregate Report</a>
       
               <div id="aggregate-menu" class="navbar-dropdown">
-                <a class="navbar-item" @click="$emit('report-selected', SHOE_REPORT)">Shoe Model</a>
-                <a class="navbar-item" @click="$emit('report-selected', STORE_REPORT)">Store</a>
+                <a class="navbar-item" @click="$emit('report-selected', SHOE_INVENTORY_REPORT)">Shoe Model Inventory</a>
+                <a class="navbar-item" @click="$emit('report-selected', SHOE_SALES_REPORT)">Shoe Model Sales</a>
+                <a class="navbar-item" @click="$emit('report-selected', STORE_INVENTORY_REPORT)">Store Inventory</a>
               </div>
             </div>
           </div>
