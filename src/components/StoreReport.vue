@@ -3,7 +3,7 @@ import { onUpdated } from 'vue'
 
 const props = defineProps({
     content: {
-        type: String
+        type: Object
     }
 })
 var records = []
@@ -43,6 +43,8 @@ function updateData(content)
 </script>
 
 <template>
+    <h1 class="title is-6 mt-4">Store Aggregate Report</h1>
+
     <table class="table is-striped is-narrow is-hoverable">
         <thead>
         <tr>
