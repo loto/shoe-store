@@ -4,12 +4,16 @@ import NavBar from './components/NavBar.vue'
 import ModelReport from './components/ModelReport.vue'
 import StoreReport from './components/StoreReport.vue'
 import { SHOE_REPORT, STORE_REPORT } from "./constants"
+import { datasource } from './datasource'
 
-const lastMessage = ref('')
 const selectedReport = ref('')
+const lastModelReport = ref('')
+const lastStoreReport = ref('')
 
 function onMessageReceived(message) {
-  lastMessage.value = JSON.parse(message.data)
+  datasource.update(JSON.parse(message.data))
+  lastModelReport.value = datasource.modelRecords
+  lastStoreReport.value = datasource.storeRecords
 }
 
 function onReportSelected(type) {
@@ -20,6 +24,6 @@ function onReportSelected(type) {
 <template>
   <NavBar @message-received="onMessageReceived" @report-selected="onReportSelected" />
   <hr class="mt-1 mb-1">
-  <ModelReport v-if="lastMessage && selectedReport == SHOE_REPORT" :content="lastMessage" />
-  <StoreReport v-if="lastMessage && selectedReport == STORE_REPORT" :content="lastMessage" />
+  <ModelReport v-if="lastModelReport && selectedReport == SHOE_REPORT" :content="lastModelReport" />
+  <StoreReport v-if="lastStoreReport && selectedReport == STORE_REPORT" :content="lastStoreReport" />
 </template>

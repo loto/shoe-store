@@ -1,45 +1,9 @@
 <script setup>
-import { onUpdated } from 'vue'
-
-const props = defineProps({
+defineProps({
     content: {
-        type: Object
+        type: Array
     }
 })
-var records = []
-
-onUpdated(() => {
-  updateData(props.content)
-})
-
-function updateData(content)
-{
-    var modelRecord = records.find(el => el.model == content.model)
-    if (modelRecord == undefined) {
-        modelRecord = { model: content.model, inventory: [] }
-        records.push(modelRecord)
-    }
-
-    var storeRecord = modelRecord.inventory.find(el => el.store == content.store)
-    if (storeRecord == undefined) {
-        storeRecord = { store: content.store, count: 0 }
-        modelRecord.inventory.push(storeRecord)
-    }
-
-    storeRecord.count = content.inventory
-
-    records.sort((a, b) => {
-        const nameA = a.model
-        const nameB = b.model
-        if (nameA < nameB) {
-            return -1
-        }
-        if (nameA > nameB) {
-            return 1
-        }
-        return 0
-    })
-}
 </script>
 
 <template>
@@ -53,7 +17,7 @@ function updateData(content)
         </tr>
         </thead>
         <tbody>
-            <tr v-for="record in records" :key="record.model">
+            <tr v-for="record in content" :key="record.model">
                 <td>
                     {{ record.model }}
                 </td>
