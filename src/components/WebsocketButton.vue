@@ -30,7 +30,7 @@ function connect() {
     })
 
     socket.addEventListener('message', (event) => {
-        console.log("WebSocket message received: ", event)
+        console.log("WebSocket message received: ", event.data)
         emit('message-received', event)
     })
 

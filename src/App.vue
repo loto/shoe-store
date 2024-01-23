@@ -12,8 +12,8 @@ const lastStoreReport = ref('')
 
 function onMessageReceived(message) {
   datasource.update(JSON.parse(message.data))
-  lastModelReport.value = datasource.modelRecords
-  lastStoreReport.value = datasource.storeRecords
+  lastModelReport.value = datasource.modelInventoryRecords
+  lastStoreReport.value = datasource.storeInventoryRecords
 }
 
 function onReportSelected(type) {

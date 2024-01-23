@@ -1,19 +1,19 @@
 import { reactive } from 'vue'
 
 export const datasource = reactive({
-    modelRecords: [],
-    storeRecords : [],
+    modelInventoryRecords: [],
+    storeInventoryRecords : [],
 
     update(state) {
-        this.updateModelRecords(state)
-        this.updateStoreRecords(state)
+        this.updatemodelInventoryRecords(state)
+        this.updatestoreInventoryRecords(state)
     },
 
-    updateModelRecords(state) {
-        var modelRecord = this.modelRecords.find(el => el.model == state.model)
+    updatemodelInventoryRecords(state) {
+        var modelRecord = this.modelInventoryRecords.find(el => el.model == state.model)
         if (modelRecord == undefined) {
             modelRecord = { model: state.model, inventory: [] }
-            this.modelRecords.push(modelRecord)
+            this.modelInventoryRecords.push(modelRecord)
         }
 
         var storeRecord = modelRecord.inventory.find(el => el.store == state.store)
@@ -24,7 +24,7 @@ export const datasource = reactive({
 
         storeRecord.count = state.inventory
 
-        this.modelRecords.sort((a, b) => {
+        this.modelInventoryRecords.sort((a, b) => {
             const nameA = a.model
             const nameB = b.model
             if (nameA < nameB) {
@@ -37,11 +37,11 @@ export const datasource = reactive({
         })
     },
 
-    updateStoreRecords(state) {
-        var storeRecord = this.storeRecords.find(el => el.store == state.store)
+    updatestoreInventoryRecords(state) {
+        var storeRecord = this.storeInventoryRecords.find(el => el.store == state.store)
         if (storeRecord == undefined) {
             storeRecord = { store: state.store, inventory: [] }
-            this.storeRecords.push(storeRecord)
+            this.storeInventoryRecords.push(storeRecord)
         }
     
         var modelRecord = storeRecord.inventory.find(el => el.model == state.model)
@@ -52,7 +52,7 @@ export const datasource = reactive({
     
         modelRecord.count = state.inventory
     
-        this.storeRecords.sort((a, b) => {
+        this.storeInventoryRecords.sort((a, b) => {
             const nameA = a.store
             const nameB = b.store
             if (nameA < nameB) {
@@ -63,5 +63,5 @@ export const datasource = reactive({
             }
             return 0
         })
-    }
+    },
 })

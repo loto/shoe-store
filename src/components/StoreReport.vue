@@ -9,7 +9,7 @@ defineProps({
 <template>
     <h1 class="title is-6 mt-4">Store Aggregate Report</h1>
 
-    <table class="table is-striped is-narrow is-hoverable">
+    <table class="table is-striped is-hoverable">
         <thead>
         <tr>
             <th>Store</th>
