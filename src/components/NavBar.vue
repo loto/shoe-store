@@ -1,5 +1,5 @@
 <script setup>
-import WebsocketButton from './WebsocketButton.vue';
+import WebsocketButton from './WebsocketButton.vue'
 const emit = defineEmits(['message-received'])
 
 function onMessageReceived(message)

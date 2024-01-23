@@ -26,21 +26,21 @@ function connect() {
     socket = new WebSocket('ws://localhost:8080')
 
     socket.addEventListener('open', (event) => {
-        console.log("WebSocket connection opened: ", event);
-    });
+        console.log("WebSocket connection opened: ", event)
+    })
 
     socket.addEventListener('message', (event) => {
-        console.log("WebSocket message received: ", event);
+        console.log("WebSocket message received: ", event)
         emit('message-received', event)
-    });
+    })
 
     socket.addEventListener('error', (event) => {
-        console.log("WebSocket error received: ", event);
-    });
+        console.log("WebSocket error received: ", event)
+    })
 
     socket.addEventListener('close', (event) => {
-        console.log("WebSocket connection closed: ", event);
-    });
+        console.log("WebSocket connection closed: ", event)
+    })
 }
 
 function disconnect() {

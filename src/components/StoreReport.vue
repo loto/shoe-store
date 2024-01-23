@@ -14,23 +14,23 @@ onUpdated(() => {
 
 function updateData(content)
 {
-    var modelRecord = records.find(el => el.model == content.model)
-    if (modelRecord == undefined) {
-        modelRecord = { model: content.model, inventory: [] }
-        records.push(modelRecord)
-    }
-
-    var storeRecord = modelRecord.inventory.find(el => el.store == content.store)
+    var storeRecord = records.find(el => el.store == content.store)
     if (storeRecord == undefined) {
-        storeRecord = { store: content.store, count: 0 }
-        modelRecord.inventory.push(storeRecord)
+        storeRecord = { store: content.store, inventory: [] }
+        records.push(storeRecord)
     }
 
-    storeRecord.count = content.inventory
+    var modelRecord = storeRecord.inventory.find(el => el.model == content.model)
+    if (modelRecord == undefined) {
+        modelRecord = { model: content.model, count: 0 }
+        storeRecord.inventory.push(modelRecord)
+    }
+
+    modelRecord.count = content.inventory
 
     records.sort((a, b) => {
-        const nameA = a.model
-        const nameB = b.model
+        const nameA = a.store
+        const nameB = b.store
         if (nameA < nameB) {
             return -1
         }
@@ -46,14 +46,14 @@ function updateData(content)
     <table class="table is-striped is-narrow is-hoverable">
         <thead>
         <tr>
-            <th>Model</th>
+            <th>Store</th>
             <th>Inventory</th>
         </tr>
         </thead>
         <tbody>
-            <tr v-for="record in records" :key="record.model">
+            <tr v-for="record in records" :key="record.store">
                 <td>
-                    {{ record.model }}
+                    {{ record.store }}
                 </td>
                 <td>
                     {{ record.inventory.reduce((acc, record) => acc + record.count, 0) }}
