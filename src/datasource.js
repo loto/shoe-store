@@ -5,24 +5,38 @@ export const datasource = reactive({
     storeInventoryRecords : [],
 
     update(state) {
-        this.updatemodelInventoryRecords(state)
-        this.updatestoreInventoryRecords(state)
+        this.updateModelInventoryRecords(state)
+        this.updateStoreInventoryRecords(state)
     },
 
-    updatemodelInventoryRecords(state) {
-        var modelRecord = this.modelInventoryRecords.find(el => el.model == state.model)
+    findOrCreateModelInventoryRecord(model) {
+        var modelRecord = this.modelInventoryRecords.find(el => el.model == model)
         if (modelRecord == undefined) {
-            modelRecord = { model: state.model, inventory: [] }
+            modelRecord = { 
+                model: model, 
+                inventory: [] ,
+                findOrCreateStore: function(store) {
+                    var storeRecord = this.inventory.find(el => el.store == store)
+                    if (storeRecord == undefined) {
+                        storeRecord = { store: store, count: 0 }
+                        this.inventory.push(storeRecord)
+                    }
+                    return storeRecord
+                },
+                updateStoreInventory: function(store, count) {
+                    let storeRecord = this.findOrCreateStore(store)
+                    storeRecord.count = count
+                }
+            }
             this.modelInventoryRecords.push(modelRecord)
         }
 
-        var storeRecord = modelRecord.inventory.find(el => el.store == state.store)
-        if (storeRecord == undefined) {
-            storeRecord = { store: state.store, count: 0 }
-            modelRecord.inventory.push(storeRecord)
-        }
+        return modelRecord
+    },
 
-        storeRecord.count = state.inventory
+    updateModelInventoryRecords(state) {
+        let modelRecord = this.findOrCreateModelInventoryRecord(state.model)
+        modelRecord.updateStoreInventory(state.store, state.inventory)
 
         this.modelInventoryRecords.sort((a, b) => {
             const nameA = a.model
@@ -37,14 +51,14 @@ export const datasource = reactive({
         })
     },
 
-    updatestoreInventoryRecords(state) {
-        var storeRecord = this.storeInventoryRecords.find(el => el.store == state.store)
+    updateStoreInventoryRecords(state) {
+        let storeRecord = this.storeInventoryRecords.find(el => el.store == state.store)
         if (storeRecord == undefined) {
             storeRecord = { store: state.store, inventory: [] }
             this.storeInventoryRecords.push(storeRecord)
         }
     
-        var modelRecord = storeRecord.inventory.find(el => el.model == state.model)
+        let modelRecord = storeRecord.inventory.find(el => el.model == state.model)
         if (modelRecord == undefined) {
             modelRecord = { model: state.model, count: 0 }
             storeRecord.inventory.push(modelRecord)
