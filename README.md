@@ -33,3 +33,9 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Start Datastream
+
+```sh
+lib/bin/websocketd --port=8080 ruby lib/inventory.rb
+```
